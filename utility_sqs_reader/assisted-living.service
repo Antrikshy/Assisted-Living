@@ -1,5 +1,6 @@
 [Unit]
 Description=The Assisted Living receiver daemon
+Wants=network-online.target
 
 [Service]
 Environment="DESKTOP_MAC_ADDR=[REDACTED]"
@@ -7,6 +8,8 @@ Environment="UTILITY_Q_URL=[REDACTED]"
 Environment="AWS_CONFIG_FILE=/path/to/.aws/config"
 Environment="AWS_SHARED_CREDENTIALS_FILE=/path/to/.aws/credentials"
 ExecStart=/path/to/venv/bin/python3 /path/to/assisted_living/receiver.py
+Restart=always
+RestartSec=15
 
 [Install]
 WantedBy=multi-user.target
