@@ -17,17 +17,20 @@ while True:
         ],
         WaitTimeSeconds=5
     )
-
     messages_to_delete = []
     if 'Messages' in response:
         for message in response['Messages']:
             body = json.loads(message['Body'])
             print('Received message with body: {}'.format(body))
+            if body['target'] != 'RaspberryPi':
+                print('Not intended for this system, ignoring...')
+                continue
+            else:
+                print('Intended for this system, processing...')
             if body['intent'] == 'SmartHomeAction' and body['action'] == 'TurnOn' and body['entity'] == 'Battlestation':
-                print ("TURNING ON BATTLESTATION")
+                print("Turning on Battlestation...")
                 wol.send_magic_packet(battlestation_mac_address)
-            messages_to_delete.append({'Id':
-             message['MessageId'], 'ReceiptHandle': message['ReceiptHandle']})
+                messages_to_delete.append({'Id': message['MessageId'], 'ReceiptHandle': message['ReceiptHandle']})
     if messages_to_delete:
         sqs.delete_message_batch(
             QueueUrl=utility_q_url,
