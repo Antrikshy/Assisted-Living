@@ -116,19 +116,19 @@ def handle_request(event, context):
         utility_q.send_message(MessageBody=message)
         message = generate_sqs_message(SqsMessageTypes.OPEN_APPLICATION_ON_BATTLESTATION, BattlestationApplications.DISCORD.value)
         utility_q.send_message(MessageBody=message)
-        return generate_alexa_response('<speak><amazon:emotion name="excited" intensity="medium">Opening Discord</amazon:emotion></speak>')
+        return generate_alexa_response('<speak><amazon:emotion name="excited" intensity="medium">Opening Discord.</amazon:emotion></speak>')
     if event['request']['intent']['name'] == 'OpenBeatSaberOnBattlestation':
         message = generate_sqs_message(SqsMessageTypes.TURN_ON_BATTLESTATION)
         utility_q.send_message(MessageBody=message)
         message = generate_sqs_message(SqsMessageTypes.OPEN_APPLICATION_ON_BATTLESTATION, BattlestationApplications.BEAT_SABER.value)
         utility_q.send_message(MessageBody=message)
-        return generate_alexa_response('<speak><amazon:emotion name="excited" intensity="medium">Opening Beat Saber</amazon:emotion></speak>')
+        return generate_alexa_response('<speak><amazon:emotion name="excited" intensity="medium">Opening Beat Saber.</amazon:emotion></speak>')
     if event['request']['intent']['name'] == 'OpenPistolWhipOnBattlestation':
         message = generate_sqs_message(SqsMessageTypes.TURN_ON_BATTLESTATION)
         utility_q.send_message(MessageBody=message)
         message = generate_sqs_message(SqsMessageTypes.OPEN_APPLICATION_ON_BATTLESTATION, BattlestationApplications.PISTOL_WHIP.value)
         utility_q.send_message(MessageBody=message)
-        return generate_alexa_response('<speak><amazon:emotion name="excited" intensity="medium">Opening Pistol Whip</amazon:emotion></speak>')
+        return generate_alexa_response('<speak><amazon:emotion name="excited" intensity="medium">Opening Pistol Whip.</amazon:emotion></speak>')
     if event['request']['intent']['name'] == 'RunScriptStartCouchGamingModeOnBattlestation':
         message = generate_sqs_message(SqsMessageTypes.TURN_ON_BATTLESTATION)
         utility_q.send_message(MessageBody=message)
