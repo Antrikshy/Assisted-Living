@@ -136,8 +136,6 @@ def handle_request(event, context):
         utility_q.send_message(MessageBody=message)
         return generate_alexa_response('<speak><amazon:emotion name="excited" intensity="low">Entering couch gaming mode.</amazon:emotion></speak>')
     if event['request']['intent']['name'] == 'RunScriptStopCouchGamingModeOnBattlestation':
-        message = generate_sqs_message(SqsMessageTypes.TURN_ON_BATTLESTATION)
-        utility_q.send_message(MessageBody=message)
         message = generate_sqs_message(SqsMessageTypes.RUN_SCRIPT_ACTION_ON_BATTLESTATION, BattlestationScriptActions.STOP_COUCH_GAMING_MODE.value)
         utility_q.send_message(MessageBody=message)
         return generate_alexa_response('<speak>Ending couch gaming mode.</speak>')
