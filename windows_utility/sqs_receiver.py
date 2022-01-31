@@ -2,7 +2,7 @@ import http.client
 import json
 import os
 import subprocess
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
 import boto3
 
@@ -12,7 +12,7 @@ utility_q_url = os.environ['UTILITY_Q_URL']
 def is_after_sunset():
     conn = http.client.HTTPSConnection('api.sunrise-sunset.org')
     # This is only my vague location, you GitHub snooper 🤨
-    conn.request('GET', '/json?lat=47.612324&lng=-122.32084&formatted=0')
+    conn.request('GET', f'/json?lat=47.612324&lng=-122.32084&formatted=0&date={date.today().isoformat()}')
     raw_data = json.loads(conn.getresponse().read())
     sunset_time = datetime.fromisoformat(raw_data['results']['sunset'])
     return datetime.now(timezone.utc) > sunset_time
@@ -45,7 +45,7 @@ class SQSReceiver:
                             os.system(r'shutdown /r /t 5')
                         if body['action'] == 'OpenApplication':
                             if body['entity'] == 'Hue Sync':
-                                subprocess.Popen(r'C:\Program Files\Hue Sync')
+                                subprocess.Popen(r'C:\Program Files\Hue Sync\HueSync.exe')
                             if body['entity'] == 'Steam':
                                 subprocess.Popen(r'C:\Program Files (x86)\Steam\steam.exe')
                             if body['entity'] == 'Battle.net':
@@ -60,7 +60,7 @@ class SQSReceiver:
                             if body['entity'] == 'StartCouchGamingMode':
                                 # Open Hue Sync if it's past sunset
                                 if is_after_sunset():
-                                    subprocess.Popen(r'C:\Program Files\Hue Sync')
+                                    subprocess.Popen(r'C:\Program Files\Hue Sync\HueSync.exe')
                                 # Switch to external display (assumed to be TV)
                                 subprocess.Popen(['displayswitch.exe', '/external'])
                                 # Open Steam in Big Picture mode, or switch to it
